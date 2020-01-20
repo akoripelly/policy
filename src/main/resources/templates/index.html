@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+<meta name="generator" content="Jekyll v3.8.6">
+<title>Search Details</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<style>
+.pull-right {
+	float: right;
+}
+</style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body class="bg-light" ng-app="app">
+	<div class="container" ng-controller="BusinessCtrl as business">
+		<div class="py-5 text-center">
+			<h2>Search Details</h2>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<form>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="policyid">Policy Id</label> <input type="text" ng-model="business.model.policyId"
+										class="form-control" id="policyid" />
+								</div>
+								<div class="form-group col-md-6">
+									<label for="state">State</label> <select id="state" ng-model="business.model.state"
+										class="form-control">
+										<option selected>Choose...</option>
+										<option>State</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="transactiondate">Last transaction date</label> <input 
+										type="date" class="form-control" id="transactiondate" ng-model="business.model.lastTxnDate" />
+								</div>
+								<div class="form-group col-md-6">
+									<label for="effectivedate">Effective date</label> <input
+										type="date" class="form-control" id="effectivedate" ng-model="business.model.effectiveDate"/>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="business">Line of Business</label> <input
+										type="text" class="form-control" id="business" ng-model="business.model.lineOfBusiness"/>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-md-6">
+									<div class="pull-right">
+										<button type="button" class="btn btn-primary" ng-click="business.search()">Search</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		//Register module into angular
+		var app = angular.module("app", []);
+
+		app.controller("BusinessCtrl", function( $http ) {
+			var business = this;
+			
+			business.search = function(){
+				
+				$http({
+			   	      method  : 'post',
+			   	      url     : "search",
+				   	  
+			   	      data : business.model
+			   	      })
+			   	      .then(function success(response) {
+			   	    	alert(response)
+			   	    	console.log(response)
+			   	      },
+			   	      function error(response){
+			   	    	alert(response)  
+			   	    	console.log(response)
+			   	      });
+				
+			}
+			
+		});
+	</script>
+</body>
+</html>
