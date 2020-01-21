@@ -1,0 +1,75 @@
+/*.bordered .dataTable th:first-child, .bordered .dataTable td:first-child {
+   border-radius: 10px 0px 0px 10px;
+    -moz-border-radius: 10px 0px 0px 10px;
+    -webkit-border-radius: 10px 0px 0px 10px;
+}*/
+
+/*.dataTables_filter
+{
+	display:none;
+}*/
+div.dataTables_wrapper div.dataTables_filter input
+{
+	font-size:12px; 
+	border-radius: 5px;
+	border:1px solid #a2cfff;
+}
+
+
+.mdmtable.table-bordered
+{
+	border: 0px solid #dee2e6;
+}
+
+.mdmtable th:first-child, .mdmtable td:first-child {
+   border-radius: 5px 0px 0px 5px;
+    -moz-border-radius: 5px 0px 0px 5px;
+    -webkit-border-radius: 5px 0px 0px 5px;
+	border-left:1px solid #a2cfff;
+	
+}
+
+
+.mdmtable th:last-child, .mdmtable td:last-child {
+    border-radius: 0px 5px 5px 0px;
+    -moz-border-radius: 0px 5px 5px 0px;
+    -webkit-border-radius: 0px 5px 5px 0px;
+	border-right:1px solid #a2cfff;
+}
+
+.mdmtable {
+    border: 0px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius:  5px 5px 5px 5px;
+    -webkit-border-radius:  5px 5px 5px 5px;
+}
+.mdmtable.table.dataTable{
+    border-collapse: separate;
+    border-spacing: 0 5px !important;
+}
+.mdmtable tr td, .mdmtable tr th
+{
+	border-top:1px solid #a2cfff;
+	border-bottom:1px solid #a2cfff;
+}
+.mdmtable th
+{
+	font-size:13px; 
+	color:#0062cc;
+}
+
+.mdmtable td
+{
+	font-size:12px; 
+}
+
+.dataTables_info
+{
+	font-size:12px; 
+}
+
+.btn-secondary.buttons-html5
+{
+	background-color: #0062d5;
+    border-color: #0062d5;
+}
