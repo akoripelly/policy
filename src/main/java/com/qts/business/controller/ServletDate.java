@@ -1,11 +1,17 @@
 package com.qts.business.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.qts.business.common.AppResponse;
+import com.qts.business.service.EmployeeService;
+import com.qts.business.vo.Employee;
 
 /**
  * Servlet implementation class ServletDate
@@ -38,8 +44,7 @@ public class ServletDate extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		JSONObject reqJson;
+		/*JSONObject reqJson;
 		JSONObject respJson = new JSONObject();
 
 		try {
@@ -55,8 +60,16 @@ public class ServletDate extends HttpServlet {
 				out.println(respJson.toJSONString());
 				out.flush();
 			}
+		}*/
+		AppResponse res = new AppResponse();
+		try {
+			EmployeeService service = new EmployeeService();
+			List<Employee> employees = service.readFromCSV("E:\\sample-data.csv");
+			res.add("employees", employees);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
+		
 		doGet(request, response);
 	}
 
