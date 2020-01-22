@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.qts.business.vo;
 
 import java.io.Serializable;
@@ -13,10 +10,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  *
  */
 public class Business implements Serializable {
-
-	/**
-	 * serialVersionUID
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private String policyId;
@@ -24,7 +17,7 @@ public class Business implements Serializable {
 	private String state;
 
 	@JsonFormat(pattern="yyyy-MM-dd")
-	private Date lastTxnDate;
+	private Date processDate;
 	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date effectiveDate;
@@ -59,18 +52,12 @@ public class Business implements Serializable {
 		this.state = state;
 	}
 
-	/**
-	 * @return the lastTxnDate
-	 */
-	public Date getLastTxnDate() {
-		return lastTxnDate;
+	public Date getProcessDate() {
+		return processDate;
 	}
 
-	/**
-	 * @param lastTxnDate the lastTxnDate to set
-	 */
-	public void setLastTxnDate(Date lastTxnDate) {
-		this.lastTxnDate = lastTxnDate;
+	public void setProcessDate(Date processDate) {
+		this.processDate = processDate;
 	}
 
 	/**
@@ -101,4 +88,10 @@ public class Business implements Serializable {
 		this.lineOfBusiness = lineOfBusiness;
 	}
 
+	@Override
+	public String toString() {
+		return "Business [policyId=" + policyId + ", state=" + state + ", processDate=" + processDate
+				+ ", effectiveDate=" + effectiveDate + ", lineOfBusiness=" + lineOfBusiness + "]";
+	}
+	
 }

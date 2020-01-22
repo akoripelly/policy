@@ -1,102 +1,274 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author"
-	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-<meta name="generator" content="Jekyll v3.8.6">
-<title>Search Details</title>
-<link rel="stylesheet" href="css/bootstrap.css">
-<style>
-.pull-right {
-	float: right;
-}
-</style>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-</head>
-<body class="bg-light" ng-app="app">
-	<div class="container" ng-controller="BusinessCtrl as business">
-		<div class="py-5 text-center">
-			<h2>Search Details</h2>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="card">
-					<div class="card-body">
-						<form>
-							<div class="form-row">
-								<div class="form-group col-md-6">
-									<label for="policyid">Policy Id</label> <input type="text" ng-model="business.model.policyId"
-										class="form-control" id="policyid" />
-								</div>
-								<div class="form-group col-md-6">
-									<label for="state">State</label> <select id="state" ng-model="business.model.state"
-										class="form-control">
-										<option selected>Choose...</option>
-										<option>State</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-6">
-									<label for="transactiondate">Last transaction date</label> <input 
-										type="date" class="form-control" id="transactiondate" ng-model="business.model.lastTxnDate" />
-								</div>
-								<div class="form-group col-md-6">
-									<label for="effectivedate">Effective date</label> <input
-										type="date" class="form-control" id="effectivedate" ng-model="business.model.effectiveDate"/>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-6">
-									<label for="business">Line of Business</label> <input
-										type="text" class="form-control" id="business" ng-model="business.model.lineOfBusiness"/>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="col-md-6">
-									<div class="pull-right">
-										<button type="button" class="btn btn-primary" ng-click="business.search()">Search</button>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+		<meta name="generator" content="Jekyll v3.8.6">
+		
+		<title>Form</title>
+		<link rel="stylesheet" href="css/bootstrap.css" />
+		<link rel="stylesheet" href="css/Datatable/dataTables.bootstrap4.min.css" />
+		<!--<link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">-->
+		<link rel="stylesheet" href="css/Datatable/buttons.bootstrap4.min.css" />
+		<link rel="stylesheet" href="css/custom.css" />
+
+		<style>
+			.pull-right {
+				float: right;
+			}
+			.mt-30 {
+				margin-top: 30px;
+			}
+		</style>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	</head>
+	<body class="bg-light" ng-app="app">
+		<div class="container-fluid" ng-controller="ServeCtrl">
+			<div class="text-center">
+				<h3>MDM Serving By Snowflake</h3>
+			</div>
+	
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-body">
+							<form name="policyForm" method="post" action="/ServletDate"> <!-- ng-submit="business.send();" -->
+								<div class="form-row">
+									<div class="col-md-3 mb-3">
+										<label for="policyid">Policy Id</label>
+										<input type="text" ng-model="business.model.policyId"
+											class="form-control" id="policyId" name="policyId" />
+	
+									</div>
+									<div class="col-md-3 mb-3">
+										<label for="processdate">Process Date</label>
+										<input type="date" class="form-control" id="processDate" name="processDate" 
+											ng-model="business.model.processDate" />
+	
+									</div>
+									<div class="col-md-3 mb-3">
+										<label for="state">State</label>
+										<select id="state" name="state" class="form-control" ng-model="business.model.state">
+											<option selected>Choose...</option>
+											<option value="il">IL</option>
+											<option value="tx">TX</option>
+											<option value="ca">CA</option>
+										</select>
+									</div>
+									<div class="col-md-3 mb-3">
+										<label for="lineofbusiness">Line of Business</label>
+										<input type="text" class="form-control" id="lineofbusiness" name="lineOfBusiness"
+											ng-model="business.model.lineOfBusiness" />
 									</div>
 								</div>
+								<div class="form-row">
+									<div class="col-md-3 mb-3">
+										<label for="processcode">Status Code</label>
+										<input type="text" class="form-control" id="statusCode" name="statusCode"  
+											ng-model="business.model.statusCode" />
+									</div>
+									<div class="col-md-3 mb-3">
+										<label for="productcode">Company Product Code</label>
+										<input type="text" class="form-control" id="productCode" name="productCode"  
+											ng-model="business.model.productCode" />
+	
+									</div>
+									<div class="col-md-3 mb-3">
+										<label for="effectivedate">Effective Date</label>
+										<input type="date" class="form-control" id="effectiveDate" name="effectiveDate"  
+											ng-model="business.model.effectiveDate" placeholder="Zip" />
+									</div>
+	
+									<div class="col-md-3 mb-3">
+										<label for="output">Output Type</label>
+										<select id="outputType" name="outputType" ng-model="business.model.outputType" 
+											class="form-control">
+											<option selected>Choose...</option>
+											<option>Save CSV</option>
+											<option>Save pdf</option>
+										</select>
+									</div>
+								</div>
+							</form>
+							<div class="pull-right">
+								<input class="btn btn-primary" type="submit" value="Submit" />
 							</div>
-						</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br />
+			<div class="row clearfix">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-body">
+							<!-- Grid--->
+							<table id="example" class="table mdmtable display nowrap" style="width: 100%">
+								<thead>
+									<tr>
+										<th>Policy id</th>
+										<th>Process date</th>
+										<th>line of business</th>
+										<th>Policy status code</th>
+										<th>Company product code</th>
+										<th>SrcDs</th>
+										<th>Process date</th>
+										<th>line of business</th>
+										<th>Policy status code</th>
+										<th>Company product code</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+									</tr>
+									<!-- <tr>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+									</tr>
+									<tr>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+									</tr>
+									<tr>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+									</tr>
+									<tr>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+									</tr>
+									<tr>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+									</tr>
+									<tr>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+									</tr>
+									<tr>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+										<td>12333</td>
+										<td>11/10/2019</td>
+										<td>22, 22</td>
+										<td>pc123</td>
+										<td>cp344</td>
+									</tr> -->
+								</tbody>	
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<script>
-		//Register module into angular
-		var app = angular.module("app", []);
 
-		app.controller("BusinessCtrl", function( $http ) {
-			var business = this;
-			
-			business.search = function(){
+		<script src="js/Datatable/jquery.dataTables.min.js"></script>
+		<script src="js/Datatable/dataTables.bootstrap4.min.js"></script>
+		<script src="js/Datatable/dataTables.buttons.min.js"></script>
+		<script src="js/Datatable/buttons.bootstrap4.min.js"></script>
+		<script src="js/Datatable/jszip.min.js"></script>
+		<script src="js/Datatable/vfs_fonts.js"></script>
+		<script src="js/Datatable/buttons.html5.min.js"></script>
+		<script src="js/Datatable/buttons.print.min.js"></script>
+		<script src="js/Datatable/buttons.colVis.min.js"></script>
+		<script>  
+			$(document).ready(function() {
+			    var table = $('#example').DataTable( {
+					lengthChange: false,
+					buttons: [ 'copy', 'excel', 'pdf', 'csv'],
+					scrollY: '30vh',
+					scrollX: true,
+					paging:false
+			    });
+			    table.buttons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
+			});
+		</script>
+		<script>
+			var app = angular.module('app', []);
+
+			function ServeCtrl($scope, $http) {
+				var business = this;
 				
-				$http({
-			   	      method  : 'post',
-			   	      url     : "search",
-				   	  
-			   	      data : business.model
-			   	      })
-			   	      .then(function success(response) {
-			   	    	alert(response)
-			   	    	console.log(response)
-			   	      },
-			   	      function error(response){
-			   	    	alert(response)  
-			   	    	console.log(response)
-			   	      });
-				
+				business.send = function() {
+					console.log('Called');
+					$http({
+						method  : 'POST',
+						url     : '/ServletDate',
+						headers : { 'Content-Type' : 'application/json'},
+						data    : business.model
+					}).then(function success(response) {
+							alert('Success');
+						}, function error(response){
+							alert('Failed');
+					});
+				}
 			}
+			app.controller('ServeCtrl', ServeCtrl);
 			
-		});
-	</script>
-</body>
+		</script>
+	</body>
 </html>
