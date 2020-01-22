@@ -11,11 +11,114 @@
 div.dataTables_wrapper div.dataTables_filter input
 {
 	font-size:12px; 
-	border-radius: 5px;
+	border-radius: 14px;
 	border:1px solid #a2cfff;
+	height: 30px;
 }
 
+.mdmtable td
+{
+     font-size:12px;
+	border-top: 1px solid #d9e8f9;
+}
 
+.mdmtable th
+{
+	font-size:14px;
+	background: #076ad4;
+	color:#fff;
+}
+.table-bordered {
+    border: 1px solid #7cade2;
+}
+.dataTables_info
+{
+	font-size:12px; 
+}
+.dataTables_filter
+{
+	font-size:12px; 
+}
+
+/*.dataTables_filter
+{
+	float:left;
+}*/
+.mdmtable th:first-child
+{
+	 border-radius: 5px 0px 0px 5px;
+    -moz-border-radius: 5px 0px 0px 5px;
+    -webkit-border-radius: 5px 0px 0px 5px;
+	border-left:1px solid #7cade2;
+}
+.mdmtable th:last-child
+{
+	 border-radius: 0px 5px 5px 0px;
+    -moz-border-radius: 0px 5px 5px 0px;
+    -webkit-border-radius: 0px 5px 5px 0px;
+	border-right:1px solid #7cade2;
+}
+.svg-icon
+{
+	fill:red;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    padding: 0 40px;
+    border: 1px solid #0062cc!important;
+	background: #fff;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    border-radius: 20px;
+    height: 40px !important;
+	
+   
+}
+.dataTables_filter label * {
+    visibility: visible;
+}
+div.dataTables_wrapper div.dataTables_filter input
+{
+    border-radius: 18px;
+    height: 35px !important;
+    
+}
+
+/*div.dataTables_wrapper div.dataTables_filter
+{
+    text-align: left !important;
+}*/
+div.dataTables_wrapper div.dataTables_filter::after
+{
+    content: url('../images/icon_search.svg');
+    position: absolute;
+   
+    left: 83%;
+    top: 8%;
+}
+div.dataTables_wrapper div.dataTables_filter input
+{
+    padding: 0 40px;
+    border: 1px solid #0069d9!important;
+}
+.dataTables_filter label {
+    visibility:hidden;
+  }
+  .dataTables_filter label * {
+    visibility:visible;
+  }
+  div.dataTables_wrapper div.dataTables_filter input
+  {
+    margin-left: 2.5rem !important;
+  }
+
+.head-abs
+{
+	position: absolute;
+}
+
+/*
 .mdmtable.table-bordered
 {
 	border: 0px solid #dee2e6;
@@ -63,13 +166,12 @@ div.dataTables_wrapper div.dataTables_filter input
 	font-size:12px; 
 }
 
-.dataTables_info
-{
-	font-size:12px; 
-}
+
 
 .btn-secondary.buttons-html5
 {
 	background-color: #0062d5;
     border-color: #0062d5;
 }
+
+*/

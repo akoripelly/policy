@@ -23,7 +23,7 @@ public class HomeController {
 	@RequestMapping("/")
 	public String index() {
 
-		return "index";
+		return "index2";
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
