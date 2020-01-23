@@ -50,11 +50,11 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-body">
-						<form>
+						<form id="serveForm" name="serveForm">
 							<div class="form-row">
 								<div class="col-md-3 mb-3">
 									<label for="policyid">Policy Id</label> <input type="text"
-										class="form-control" id="policyid" />
+										class="form-control" id="policyId" name="policyId" />
 
 								</div>
 								<div class="col-md-3 mb-3">
@@ -231,6 +231,7 @@
 
 
 	<script src="js/jquery-3.3.1.js"></script>
+	<script src="js/jquery.validate.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/Datatable/jquery.dataTables.min.js"></script>
 	<!--  <script src="js/Datatable/dataTables.bootstrap4.min.js"></script>
@@ -258,6 +259,18 @@
 		app.controller('ServeCtrl', ServeCtrl);
 		function ServeCtrl($http, $q) {
 			var business = this;
+			
+			function validateForm(form) {
+		    	return form.validate({
+		    		rules: {
+		    			'policyId' : {required:true}
+		    		},
+					messages: {
+						'policyId' : {required : 'Policy Id is required'}
+					}
+				});
+			}
+			
 			business.loadResults = function() {
 				var deferred = $q.defer();
 				var res;
