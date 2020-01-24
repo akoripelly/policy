@@ -1,5 +1,4 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -15,7 +14,8 @@
 <title>Form</title>
 
 <link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/Datatable/dataTables.bootstrap4.min.css">
+<link rel="stylesheet"
+	href="css/Datatable/dataTables.bootstrap4.min.css">
 <!--  <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">-->
 <link rel="stylesheet" href="css/Datatable/buttons.bootstrap4.min.css">
 <link rel="stylesheet" href="css/custom.css">
@@ -83,12 +83,11 @@
 									<label for="effectivedate">Effective Date</label> <input
 										type="date" class="form-control" id="effectivedate"
 										placeholder="mm/dd/yyyy" />
-
 								</div>
 
 								<div class="col-md-3 mb-3">
-									<label for="outputType">Output Type</label> <select id="outputType"
-										class="form-control">
+									<label for="outputType">Output Type</label> <select
+										id="outputType" class="form-control">
 										<option selected>Choose...</option>
 										<option>Json</option>
 										<option>CSV</option>
@@ -106,9 +105,14 @@
 							</div>
 						</form>
 						<div class="pull-right">
-							<div>
-								<span ng-show="business.showTimer" id="timer"><timer id="time" /></span>
-								<button class="btn btn-primary" ng-click="business.serve();">Serve</button>
+							<button class="btn btn-primary" ng-click="business.serve();">Serve</button>
+						</div>
+						<div class="row" ng-show="business.showTimer">
+							<div ng-show="business.showTimeMillisDiv">
+								<span id="timer"><timer /></span> ms
+							</div>
+							<div ng-show="business.showTimeSecondsDiv">
+								<span>{{business.servedTime}}</span>
 							</div>
 						</div>
 					</div>
@@ -137,7 +141,6 @@
 									<td ng-repeat="val in row">{{val}}</td>
 								</tr>
 							</tbody>-->
-
 						</table>
 
 						<div class="modal fade" id="exampleModalScrollable" tabindex="-1"
@@ -248,33 +251,42 @@
 			    // 4- Keep only seconds not extracted to minutes:
 			    seconds = seconds % 60;
 			    //alert( hours+":"+minutes+":"+seconds);
-			    return hours + ":"+ minutes +":"+ seconds;
+			    return hours + ":"+ minutes +":"+ seconds + ' sec';
 			}
+			var table;
 			business.serve = function() {
+				business.showResults = false;
 				business.showTimer = true;
+				business.showTimeMillisDiv = true;
+				business.showTimeSecondsDiv = false;
 				$scope.$broadcast('timer-start');
 				//$('timer')[0].start();
 				$timeout(function() {
 					business.loadResults().then(function(data) {
-						var headers = []
-						
+						var headers = [];
+
 						angular.forEach(business.headers,function(name){
 							var header={ title: name }
 							headers.push(header);
 						});
-						$('#example').DataTable({
+						if (table) {
+							table.destroy();
+							$('#example').empty();
+						}
+						table = $('#example').DataTable({
 							scrollY : '30vh',
 							scrollX : true,
 							paging : false,
 							columns: headers,
 							data: data
 						});
-						
-						business.showResults = true;
 						$scope.$broadcast('timer-stop');
 						var milliSeconds = parseInt($('#timer').text());
-						$('#timer').text(millisToTime(milliSeconds));
-					});	
+						business.servedTime = millisToTime(milliSeconds);
+						business.showResults = true;
+						business.showTimeMillisDiv = false;
+						business.showTimeSecondsDiv = true;
+					});
 				}, 5000);
 			}
 			business.loadResults = function() {
@@ -282,7 +294,7 @@
 				var res;
 				$http({
 					method : 'GET',
-					url : 'sample-data.csv',					
+					url : 'sample-data.csv',	
 				}).then(function success(response) {
 					var allTextLines = response.data.split(/\r\n|\n/);
 			        business.headers = allTextLines[0].split(',');
