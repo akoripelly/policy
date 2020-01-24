@@ -236,6 +236,20 @@
 					}
 				});
 			}
+			
+			function millisToTime(milliSeconds) {
+				// 1- Convert to seconds:
+			    var seconds = milliSeconds / 1000;
+			    // 2- Extract hours:
+			    var hours = parseInt( seconds / 3600 ); // 3,600 seconds in 1 hour
+			    seconds = seconds % 3600; // seconds remaining after extracting hours
+			    // 3- Extract minutes:
+			    var minutes = parseInt( seconds / 60 ); // 60 seconds in 1 minute
+			    // 4- Keep only seconds not extracted to minutes:
+			    seconds = seconds % 60;
+			    //alert( hours+":"+minutes+":"+seconds);
+			    return hours + ":"+ minutes +":"+ seconds;
+			}
 			business.serve = function() {
 				business.showTimer = true;
 				$scope.$broadcast('timer-start');
@@ -258,11 +272,8 @@
 						
 						business.showResults = true;
 						$scope.$broadcast('timer-stop');
-						/* var time = parseInt($('#timer').val());
-						var timeString = (time / 1000.0).toString();
-						var parts = timeString.split('.');
-						$('#timer').val(parts[0] +':'+ parts[1]) */
-						//$('timer')[0].stop();
+						var milliSeconds = parseInt($('#timer').text());
+						$('#timer').text(millisToTime(milliSeconds));
 					});	
 				}, 5000);
 			}
