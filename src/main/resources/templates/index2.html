@@ -13,14 +13,11 @@
 <meta name="generator" content="Jekyll v3.8.6">
 
 <title>Form</title>
+
 <link rel="stylesheet" href="css/bootstrap.css">
-
-<link rel="stylesheet"
-	href="css/Datatable/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="css/Datatable/dataTables.bootstrap4.min.css">
 <!--  <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">-->
-
 <link rel="stylesheet" href="css/Datatable/buttons.bootstrap4.min.css">
-
 <link rel="stylesheet" href="css/custom.css">
 
 <style>
@@ -32,10 +29,6 @@
 	margin-top: 30px;
 }
 </style>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-
-
 </head>
 <body class="bg-light" ng-app="app"
 	ng-controller="ServeCtrl as business">
@@ -89,41 +82,35 @@
 								<div class="col-md-3 mb-3">
 									<label for="effectivedate">Effective Date</label> <input
 										type="date" class="form-control" id="effectivedate"
-										placeholder="Zip" />
+										placeholder="mm/dd/yyyy" />
 
 								</div>
 
 								<div class="col-md-3 mb-3">
-									<label for="state">Output Type</label> <select id="state"
+									<label for="outputType">Output Type</label> <select id="outputType"
 										class="form-control">
 										<option selected>Choose...</option>
 										<option>Json</option>
 										<option>CSV</option>
 									</select>
-
 								</div>
 							</div>
-
 
 							<div class="collapse" id="collapseExample">
 								<div class="card card-body">
 									<div class="form-row">
 										<label for="query">Query </label> <input type="text"
-											class="form-control" id="query" placeholder="Zip" />
-
+											class="form-control" id="query" placeholder="Query" />
 									</div>
 								</div>
 							</div>
-							<div class="pull-right">
-								<div>
-
-									<button class="btn btn-primary" type="submit">Serve</button>
-								</div>
-							</div>
 						</form>
-
-
-
+						<div class="pull-right">
+							<div>
+								<span ng-show="business.showTimer" id="timer"><timer id="time" /></span>
+								<button class="btn btn-primary" ng-click="business.serve();">Serve</button>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -131,33 +118,27 @@
 		</div>
 
 		<br />
-		<div class="row clearfix">
+		<div class="row clearfix" ng-show="business.showResults">
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-body">
 						<!-- Grid--->
 						<h5 class="head-abs">MDM Search results</h5>
 
-
 						<table id="example" class="table mdmtable display nowrap"
 							style="width: 100%">
 							<!-- <thead>
 								<tr>
 									<th ng-repeat="header in business.headers">{{header}}</th>
-									
 								</tr>
-							</thead> -->
+							</thead>
 							<tbody>
 								<tr ng-repeat="row in business.data">
 									<td ng-repeat="val in row">{{val}}</td>
-									
 								</tr>
-
-
-							</tbody>
+							</tbody>-->
 
 						</table>
-
 
 						<div class="modal fade" id="exampleModalScrollable" tabindex="-1"
 							role="dialog" aria-labelledby="exampleModalScrollableTitle"
@@ -221,19 +202,15 @@
 					</div>
 				</div>
 			</div>
-
-
-
 		</div>
-
-
 	</div>
-
 
 	<script src="js/jquery-3.3.1.js"></script>
 	<script src="js/jquery.validate.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/Datatable/jquery.dataTables.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<script src="js/timer.js"></script>
 	<!--  <script src="js/Datatable/dataTables.bootstrap4.min.js"></script>
 	  <script src="js/Datatable/dataTables.buttons.min.js"></script>
 	  <script src="js/Datatable/buttons.bootstrap4.min.js"></script>
@@ -244,20 +221,9 @@
 	   <script src="js/Datatable/buttons.colVis.min.js"></script>-->
 
 	<script>
-		$(document).ready(function() {
-
-			/* $('#example').DataTable({
-				scrollY : '30vh',
-				scrollX : true,
-				paging : false
-			}); */
-
-		});
-	</script>
-	<script>
-		var app = angular.module('app', [ ]);
+		var app = angular.module('app', ['timer']);
 		app.controller('ServeCtrl', ServeCtrl);
-		function ServeCtrl($http, $q) {
+		function ServeCtrl($scope, $http, $q, $timeout) {
 			var business = this;
 			
 			function validateForm(form) {
@@ -270,18 +236,47 @@
 					}
 				});
 			}
-			
+			business.serve = function() {
+				business.showTimer = true;
+				$scope.$broadcast('timer-start');
+				//$('timer')[0].start();
+				$timeout(function() {
+					business.loadResults().then(function(data) {
+						var headers = []
+						
+						angular.forEach(business.headers,function(name){
+							var header={ title: name }
+							headers.push(header);
+						});
+						$('#example').DataTable({
+							scrollY : '30vh',
+							scrollX : true,
+							paging : false,
+							columns: headers,
+							data: data
+						});
+						
+						business.showResults = true;
+						$scope.$broadcast('timer-stop');
+						/* var time = parseInt($('#timer').val());
+						var timeString = (time / 1000.0).toString();
+						var parts = timeString.split('.');
+						$('#timer').val(parts[0] +':'+ parts[1]) */
+						//$('timer')[0].stop();
+					});	
+				}, 5000);
+			}
 			business.loadResults = function() {
 				var deferred = $q.defer();
 				var res;
 				$http({
-					method : 'get',
+					method : 'GET',
 					url : 'sample-data.csv',					
 				}).then(function success(response) {
 					var allTextLines = response.data.split(/\r\n|\n/);
 			        business.headers = allTextLines[0].split(',');
 			        var lines = [];
-			        
+
 			        for ( var i = 1; i < allTextLines.length; i++) {
 			            // split content based on comma
 			            var data = allTextLines[i].split(',');
@@ -302,22 +297,6 @@
 				res = deferred.promise;
 				return $q.when(res);
 			}
-			
-			business.loadResults().then(function(){
-				var headers = []
-				
-				angular.forEach(business.headers,function(name){
-					var header={ title: name }
-					headers.push(header);
-				});
-				
-				$('#example').DataTable({
-				scrollY : '30vh',
-				scrollX : true,
-				paging : false,
-				columns: headers
-				});
-			});
 		}
 	</script>
 </body>
